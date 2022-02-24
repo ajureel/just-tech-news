@@ -17,11 +17,13 @@ router.get('/', (req, res) => {
 // GET /api/users/1
 router.get('/:id', (req, res) => {
     User.findOne({
-        attributes: { exclude: ['password'],
-        where: {
-            id: req.params.id
-        }
-    })
+        attributes: { 
+            exclude: ['password'],
+            where: {
+                id: req.params.id
+                }
+            }
+        })
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No user found with this id' });
@@ -55,8 +57,9 @@ router.put('/:id', (req, res) => {
     // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
 
     // if req.body has exact key/value pairs to match the model, you can just use `req.body` instead
-    // test this missing some fields
+    // test this missing some fields - yep works fine...
     User.update(req.body, {
+        individualHooks: true,
         where: {
             id: req.params.id
         }
